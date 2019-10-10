@@ -84,7 +84,7 @@ class Jflap2Utfpr(object):
 			print("Simbolo originalmente escolhido para representar branco foi utilizado para outros fins no automato. Simbolo para branco foi substituido por " + self.blankSymbol + ".")
 
 		with open(outputFile, 'w') as csvfile:
-			writer = csv.writer(csvfile, delimiter = ' ', escapechar = None, quotechar = None, quoting = csv.QUOTE_NONE, skipinitialspace = True)
+			writer = csv.writer(csvfile, delimiter = ' ', lineterminator='\n')
 			writer.writerow("NDFA")
 			writer.writerow(set2list(self.alphabet))
 			writer.writerow(self.blankSymbol)
