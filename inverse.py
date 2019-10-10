@@ -44,7 +44,7 @@ def printfaData(fa_aux, i):
     print(f'Estados da máquina {i+1} : {fa_aux.states}')
     print(f'Estado incial da máquina {i+1} : {fa_aux.initial_state}')
     print(f'Estado final da máquina {i+1} : {fa_aux.final_states}')
-    print(f'Transições da máquina {i+1}')
+    print(f'Transições da máquina {i+1} : ')
     for j in fa_aux.transitions:
         print(j)
     print()
@@ -120,6 +120,7 @@ for i in range(len(fa[0].final_states)):
 
 for i in range(2):
     printfaData(fa[i], i)
+    print("\n\n")
 
 # """ Aberto o arquivo vindo por comando, na pasta ."/fla/turing_machine_union.txt" e escreve a união das duas fa """
 # union = open(sys.argv[3], 'w')
