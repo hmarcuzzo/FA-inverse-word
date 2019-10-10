@@ -53,7 +53,7 @@ class Jflap2Utfpr(object):
 
 		for s in tm.findall('state'):
 			state_id = s.attrib['id']
-			if s.attrib.has_key('name'):
+			if 'name' in s.attrib:
 				state_name = s.attrib['name']
 			else:
 				state_name = str(state_id)
