@@ -23,7 +23,7 @@ fp.close()
 lines = []
 for line in lines_cmd:
     lines.append(line.rstrip())
-fa[0].machine = lines[0]
+fa[0].machine = lines[0].split()
 fa[0].input_alphabet = lines[1].split()
 fa[0].lambda_ = lines[2]
 fa[0].states = lines[3].split()
@@ -50,7 +50,8 @@ def printfaData(fa_aux, i):
 fa.append(FiniteAutomaton())
 
 """ Copiando o estado da máquina """
-fa[1].machine.append(fa[0].machine)
+for i in range(len(fa[0].machine)):
+    fa[1].machine.append(fa[0].machine[i])
 
 """ Capituramos para Turing Machine União todos os alfabetos de entrada da 1a turing machine
         e na 2a turing machine são capturadas, apenas, as letras que não continha na 1a (2a linha) """
@@ -114,40 +115,36 @@ for i in range(len(fa[0].transitions)):
 printfaData(fa[1], 1)
 print("\n\n")
 
-# """ Aberto o arquivo vindo por comando, na pasta ."/fla/turing_machine_union.txt" e escreve a união das duas fa """
-# union = open(sys.argv[3], 'w')
-# union.write("T M\n")
-# for i in range(len(fa[2].input_alphabet)):
-#     union.write(fa[2].input_alphabet[i] + " ")
-# union.write("\n")
-# for i in range(len(fa[2].tape_alphabet)):
-#     union.write(fa[2].tape_alphabet[i] + " ")
-# union.write("\n")
-# for i in range(len(fa[2].whitespace)):
-#     union.write(fa[2].whitespace[i] + " ")
-# union.write("\n")
-# for i in range(len(fa[2].states)):
-#     union.write(str(fa[2].states[i]) + " ")
-# union.write("\n")
-# for i in range(len(fa[2].initial_state)):
-#     union.write(str(fa[2].initial_state[i]) + " ")
-# union.write("\n")
-# for i in range(len(fa[2].final_states)):
-#     union.write(str(fa[2].final_states[i]) + " ")
-# union.write("\n")
-# for i in range(len(fa[2].number_of_tapes)):
-#     union.write(str(fa[2].number_of_tapes[i]) + " ")
-# union.write("\n")
-# for i in range(len(fa[2].transitions)):
-#     for j in range(len(fa[2].transitions[i])):
-#         union.write(str(fa[2].transitions[i][j]) + " ")
-#     union.write("\n")
+""" Aberto o arquivo vindo por comando, na pasta ."/fla/turing_machine_union.txt" e escreve a união das duas fa """
+inverse = open(sys.argv[2], 'w')
+for i in range(len(fa[1].machine)):
+    inverse.write(fa[1].machine[i] + " ")
+inverse.write("\n")
+for i in range(len(fa[1].input_alphabet)):
+    inverse.write(fa[1].input_alphabet[i] + " ")
+inverse.write("\n")
+for i in range(len(fa[1].lambda_)):
+    inverse.write(fa[1].lambda_[i] + " ")
+inverse.write("\n")
+for i in range(len(fa[1].states)):
+    inverse.write(str(fa[1].states[i]) + " ")
+inverse.write("\n")
+for i in range(len(fa[1].initial_state)):
+    inverse.write(str(fa[1].initial_state[i]) + " ")
+inverse.write("\n")
+for i in range(len(fa[1].final_states)):
+    inverse.write(str(fa[1].final_states[i]) + " ")
+inverse.write("\n")
+for i in range(len(fa[1].transitions)):
+    for j in range(len(fa[1].transitions[i])):
+        inverse.write(str(fa[1].transitions[i][j]) + " ")
+    inverse.write("\n")
 
-# union.close()
+inverse.close()
 #######################################################
 
-# """ Verifica se máquina de Turing aceita """
-# inputTest = ""
-# for i in range(len(sys.argv[4:])):
-#     inputTest = inputTest + sys.argv[4:][i]
-# return_code = subprocess.call('python3 ./fla/main.py union.txt '+ inputTest, shell=True)
+""" Verifica se máquina de Turing aceita """
+inputTest = ""
+for i in range(len(sys.argv[3:])):
+    inputTest = inputTest + sys.argv[3:][i]
+return_code = subprocess.call('python3 ./fla/main.py ' + sys.argv[2] + " " + inputTest, shell=True)
