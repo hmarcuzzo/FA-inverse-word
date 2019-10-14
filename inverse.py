@@ -1,7 +1,7 @@
 import sys
 import subprocess
 
-""" Classe com todas as linhas de uma turing machine. """
+""" Classe com todas as linhas de um automato finito. """
 class FiniteAutomaton(object):
     def __init__(self):
         self.machine = []
@@ -14,7 +14,7 @@ class FiniteAutomaton(object):
 
 
 
-""" Todas as linhas da Turing Machine são pegas pelos variaveis da Classe """
+""" Todas as linhas do automato finito são pegas pelos variaveis da Classe """
 fa = []
 fa.append(FiniteAutomaton())
 fp = open(sys.argv[1], "r")
@@ -53,21 +53,18 @@ fa.append(FiniteAutomaton())
 for i in range(len(fa[0].machine)):
     fa[1].machine.append(fa[0].machine[i])
 
-""" Capituramos para Turing Machine União todos os alfabetos de entrada da 1a turing machine
-        e na 2a turing machine são capturadas, apenas, as letras que não continha na 1a (2a linha) """
+""" Capituramos para o Automato Finito inverso todos os alfabetos de entrada do automato finito principal"""
 for j in range(len(fa[0].input_alphabet)):
     fa[1].input_alphabet.append(fa[0].input_alphabet[j])
 
 #######################################################
 
-""" Procuramos na Turing Machine União, a partir da letra "A" uma letra não que não estivesse
-        no alfabeto da fita e que fosse diferente de "R", "L" ou "S" (4a linha) """
+""" Copia o lambda de um automato para outro """
 fa[1].lambda_.append(fa[0].lambda_)
 
 # #######################################################
 
-""" Criamos a quantidade de estados existens na Turing Machine União
-        somando a quantidade de estados da 1a e 2a fa + 1, que é o nosso estado inicial (5a linha) """
+""" Copiamos os estados existens no Automato finito """
 
 for i in range(len(fa[0].states)):
     fa[1].states.append(fa[0].states[i])
@@ -75,31 +72,25 @@ fa[1].states.append("q" + str(len(fa[0].states)))
 
 #######################################################
 
-""" Definindo o estado inicial da fa União sempre como 0, que é o estado criado a mais
-        que serve como controle (6a linha) """
+""" Define como estado inicial do automato inverso, o estado criado para ser o inicializador """
 fa[1].initial_state.append( "q" + str(len(fa[0].states)))
 
 #######################################################
 
-""" Definimos a os estados finas da fa União, pegando os estados finais da fa 1 e 2
-        já com a referencia deles na nova fa (7a linha) """
+""" Define como estado final da automato inverso, o estado inical do automato principal """
 for i in range(len(fa[0].initial_state)):
     fa[1].final_states.append(fa[0].initial_state[i])
 
 #######################################################
 
-""" É criado asa transições inicias da TM União que define a qual máquina o conjunto de 
-        entrada pertence, de acordo com a primeira letra é possível mandar para o estado
-            inicias da TM 1 ou 2 ou as duas simultaneamente sem que nada seja consumido (9a linha) """
+""" São copiadas as transições para depois fazerem as devidas trocas """
 for i in range(len(fa[0].final_states)):
     fa[1].transitions.append( 
         (str(fa[1].initial_state[0]) + " " + str(fa[1].lambda_[0]) + " " + str(fa[0].final_states[i])).split() )
 
 ######################################################
 
-""" É copiado todas as transações da fa 1 e 2, fazendo as trocas dos estados para as suas respectivas referências
-        na fa União, e também, trocando as letras que representavam o "Branco" de cada fa 
-            para a letra definida como "Branco" na fa União (9a linha) """
+""" É feita a inversão das transições """
 aux = []
 for i in range(len(fa[0].transitions)):
     aux = fa[0].transitions[i][0]
@@ -115,7 +106,7 @@ for i in range(len(fa[0].transitions)):
 printfaData(fa[1], 1)
 print("\n\n")
 
-""" Aberto o arquivo vindo por comando, na pasta ."/fla/turing_machine_union.txt" e escreve a união das duas fa """
+""" Aberto o arquivo vindo por comando, na pasta ."/fla/dfa.txt" e escreve a união das duas fa """
 inverse = open(sys.argv[2], 'w')
 for i in range(len(fa[1].machine)):
     inverse.write(fa[1].machine[i] + " ")
@@ -143,7 +134,7 @@ for i in range(len(fa[1].transitions)):
 inverse.close()
 #######################################################
 
-""" Verifica se máquina de Turing aceita """
+""" Verifica se o automato aceita """
 inputTest = ""
 for i in range(len(sys.argv[3:])):
     inputTest = inputTest + sys.argv[3:][i]
