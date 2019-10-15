@@ -4,6 +4,6 @@ não tiver quebra de linha em seu meio.
 
 ## Run
 ```
-python3 inverse.py dfa.txt invere.txt "entrada"
+python3 inverse.py dfa.txt inverse.txt "entrada"
 
 ```
